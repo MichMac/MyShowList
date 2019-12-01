@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyShowList</string>
+    <string name="title_form">Enter title</string>
+    <string name="type_form">Enter type</string>
+    <string name="episodes_form">Enter number of episodes</string>
+    <string name="status_form">Enter status</string>
+    <string name="rating_form">Enter rating</string>
+    <string name="description_form">Enter description</string>
+</resources>
