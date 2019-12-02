@@ -1,11 +1,14 @@
 package com.example.myshowlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Show {
     private String title;
     private String type;
-    private String episodes;
+    private Integer episodes;
     private String status;
-    private String rating;
+    private Integer rating;
     private String description;
 
     public Show() {
@@ -28,11 +31,11 @@ public class Show {
         this.type = type;
     }
 
-    public String getEpisodes() {
+    public Integer getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(String episodes) {
+    public void setEpisodes(Integer episodes) {
         this.episodes = episodes;
     }
 
@@ -44,11 +47,11 @@ public class Show {
         this.status = status;
     }
 
-    public String getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

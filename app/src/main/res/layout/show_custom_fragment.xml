@@ -12,13 +12,12 @@
         android:inputType="textPersonName"
         android:text="@string/title_form" />
 
-    <EditText
-        android:id="@+id/type_edit"
+    <Spinner
+        android:id="@+id/type_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/type_form" />
+        android:spinnerMode="dropdown" />
 
     <EditText
         android:id="@+id/episodes_edit"
@@ -28,21 +27,19 @@
         android:inputType="textPersonName"
         android:text="@string/episodes_form" />
 
-    <EditText
-        android:id="@+id/status_edit"
+    <Spinner
+        android:id="@+id/status_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/status_form" />
+        android:spinnerMode="dropdown" />
 
-    <EditText
-        android:id="@+id/rating_edit"
+    <Spinner
+        android:id="@+id/rating_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/rating_form" />
+        android:spinnerMode="dropdown" />
 
     <EditText
         android:id="@+id/description_edit"
