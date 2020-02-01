@@ -17,22 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:ems="10"
-        android:spinnerMode="dropdown" />
-
-    <EditText
-        android:id="@+id/episodes_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/episodes_form" />
-
-    <Spinner
-        android:id="@+id/status_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        />
 
     <Spinner
         android:id="@+id/rating_spinner"

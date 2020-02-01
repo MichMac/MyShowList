@@ -1,19 +1,29 @@
 package com.example.myshowlist;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ShowAPI {
 
-public class Show {
+    private String image;
     private String title;
     private String type;
-    private Integer episodes;
-    private String status;
-    private Integer rating;
+    private String rating;
     private String description;
+    private String show_id;
 
 
-    public Show() {
+    public String getShow_id() {
+        return show_id;
+    }
 
+    public void setShow_id(String show_id) {
+        this.show_id = show_id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getTitle() {
@@ -32,27 +42,11 @@ public class Show {
         this.type = type;
     }
 
-    public Integer getEpisodes() {
-        return episodes;
-    }
-
-    public void setEpisodes(Integer episodes) {
-        this.episodes = episodes;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 

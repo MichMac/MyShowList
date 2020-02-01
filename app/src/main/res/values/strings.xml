@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">MyShowList</string>
-    <string name="title_form">Enter title</string>
-    <string name="type_form">Enter type</string>
-    <string name="episodes_form">Enter number of episodes</string>
-    <string name="status_form">Enter status</string>
-    <string name="rating_form">Enter rating</string>
-    <string name="description_form">Enter description</string>
+    <string name="title_form">Wprowadź tytuł</string>
+    <string name="type_form">Wprowadź typ produkcji</string>
+    <string name="episodes_form">Wprowadź liczbę odcinków </string>
+    <string name="status_form">Wprowadź status produkcji</string>
+    <string name="rating_form">Wprowadź swoją ocenę</string>
+    <string name="description_form">Wprowadź opis</string>
 </resources>

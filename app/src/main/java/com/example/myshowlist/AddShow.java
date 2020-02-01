@@ -36,8 +36,8 @@ public class AddShow extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ShowApiFragment(), "Add from database");
-        adapter.addFragment(new ShowCustomFragment(),"Add custom show");
+        adapter.addFragment(new ShowApiFragment(), "Dodaj z bazy danych");
+        adapter.addFragment(new ShowCustomFragment(),"Dodaj ręcznie");
         viewPager.setAdapter(adapter);
     }
 }

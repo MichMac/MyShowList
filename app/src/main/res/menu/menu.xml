@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/settings_addShow"
+        android:title="Add Show"/>
+
+    <item android:id="@+id/sort"
+        android:title="Sort By">
+
+        <menu>
+            <item android:id="@+id/settings_Titles"
+                android:title="Titles"/>
+
+            <item android:id="@+id/settings_Ratings"
+                android:title="Ratings"/>
+
+            <item android:id="@+id/setting_Type"
+                android:title="Types"/>
+
+        </menu>
+    </item>
+</menu>

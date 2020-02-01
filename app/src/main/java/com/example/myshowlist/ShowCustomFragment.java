@@ -28,7 +28,7 @@ public class ShowCustomFragment extends Fragment {
     Spinner spinnerType,spinnerStatus,spinnerRating;
     Button btnDodaj;
     DatabaseReference reff;
-    Show show;
+    ShowAPI show;
     List type,status,rating;
     String itemType,itemStatus,itemRating;
     ArrayAdapter<String> typeAdapter,statusAdapter;
@@ -39,26 +39,14 @@ public class ShowCustomFragment extends Fragment {
         //Toast.makeText(getActivity(),"Custom Fragment",Toast.LENGTH_LONG).show();
         textTitle= (EditText)view.findViewById(R.id.title_edit);
         spinnerType= (Spinner)view.findViewById(R.id.type_spinner);
-        textEpisodes= (EditText)view.findViewById(R.id.episodes_edit);
-        spinnerStatus= (Spinner) view.findViewById(R.id.status_spinner);
         spinnerRating= (Spinner) view.findViewById(R.id.rating_spinner);
         textDescription= (EditText)view.findViewById(R.id.description_edit);
         btnDodaj = (Button)view.findViewById(R.id.dodaj_custom_button);
-        show = new Show();
-        reff = FirebaseDatabase.getInstance().getReference().child("Show"); //tworzenie instancji firebase i pobrania informacji z obiektu show
 
         type = new ArrayList<>();
         type.add(0,"Wprowadź typ produkcji");
-        type.add("Film");
-        type.add("Serial");
-        type.add("Bajka");
-
-        status = new ArrayList<>();
-        status.add(0,"Wprowadź status produkcji");
-        status.add("Skończone");
-        status.add("Planowane");
-        status.add("Wstrzymane");
-        status.add("Oczekujące");
+        type.add("movie");
+        type.add("tv");
 
         rating = new ArrayList<>();
         rating.add(0,"Wprowadź swoją ocenę");
@@ -77,19 +65,17 @@ public class ShowCustomFragment extends Fragment {
 
         //Style and populate the spinner
         ArrayAdapter<String> dataAdatper;
-        typeAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,type);
-        statusAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,status);
+        typeAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,type);;
         ratingAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,rating);
 
 
         //Dropwdown layout style
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ratingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerType.setAdapter(typeAdapter);
         spinnerRating.setAdapter(ratingAdapter);
-        spinnerStatus.setAdapter(statusAdapter);
+
 
 
 
@@ -105,7 +91,7 @@ public class ShowCustomFragment extends Fragment {
                 {
                     // on selecting spinner item
                     itemType = parent.getItemAtPosition(position).toString();
-                    Toast.makeText(parent.getContext(),"Selected: " +itemType, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(parent.getContext(),"Selected: " +itemType, Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -116,28 +102,7 @@ public class ShowCustomFragment extends Fragment {
             }
         });
 
-        spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (parent.getItemAtPosition(position).equals("Wprowadź typ produkcji"))
-                {
-                    // do nothing
-                }
-                else
-                {
-                    // on selecting spinner item
-                    itemStatus = parent.getItemAtPosition(position).toString();
-                    Toast.makeText(parent.getContext(),"Selected: " +itemStatus, Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         spinnerRating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -145,13 +110,13 @@ public class ShowCustomFragment extends Fragment {
 
                 if (parent.getItemAtPosition(position).equals("Wprowadź typ produkcji"))
                 {
-                    // do nothing
+                    //Toast.makeText(parent.getContext(),"Nie wybrano typu produkcji", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
                     // on selecting spinner item
                     itemRating = parent.getItemAtPosition(position).toString();
-                    Toast.makeText(parent.getContext(),"Selected: " +itemRating, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(parent.getContext(),"Selected: " +itemRating, Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -166,17 +131,19 @@ public class ShowCustomFragment extends Fragment {
         btnDodaj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int episodes = Integer.parseInt(textEpisodes.getText().toString().trim());
+                reff = FirebaseDatabase.getInstance().getReference().child("Show");
+                show = new ShowAPI();
                 int rating = Integer.parseInt(itemRating.trim());
 
+                String showID = reff.child("Show").push().getKey();
                 show.setTitle(textTitle.getText().toString().trim());
                 show.setType(itemType);
-                show.setEpisodes(episodes);
-                show.setStatus(itemStatus);
-                show.setRating(rating);
+                show.setRating(String.valueOf(rating));
+                show.setImage(" ");
                 show.setDescription(textDescription.getText().toString());
-                reff.push().setValue(show);
+                show.setShow_id(showID);
+                //reff.push().setValue(show);
+                reff.child(show.getShow_id()).setValue(show);
                 //Log.d("Database Debug","tytul: "+show.getTitle() + "Typ: " + show.getType());
                 Toast.makeText(getContext(),"data inserted sucessfully",Toast.LENGTH_LONG).show();
             }
