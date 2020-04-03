@@ -22,15 +22,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-//import com.example.myshowlist.littlehelp.ApiInterface;
-//import com.example.myshowlist.littlehelp.MovieResults;
-
 public class ShowApiFragment extends Fragment {
     private static final String TAG = "ShowApiFragment";
     public static String BASE_URL = "https://api.themoviedb.org";
     public static String CATEGORY = "popular";
     public static int PAGE = 1;
-    public static String API_KEY = "YOUR_API_KEY";
+    public static String API_KEY = "9119f94b9c53141e42e52022d4f9aa72";
     public static String LANGUAGE = "pl-PL";
     public static boolean INCLUDE_ADULT = false;
 
@@ -52,57 +49,39 @@ public class ShowApiFragment extends Fragment {
 
         searchView = view.findViewById(R.id.search_from_database);
         recyclerView = view.findViewById(R.id.add_view_from_database);
-
         listOfResults = new ArrayList<>();
-
         show = new ShowAPI();
-
         //Retrofit object turns http api into interface
         retrofit = new Retrofit.Builder()
                             .baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create()) //convert json to gson
                             .build();
-
-
         myMultiSearchInterface = retrofit.create(ApiInterfaceMultiSearch.class);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-
                 Call<MultiSearchResults> call = myMultiSearchInterface.getMultiSearchResult(API_KEY,LANGUAGE,query,PAGE,INCLUDE_ADULT);
-
 
                 call.enqueue(new Callback<MultiSearchResults>() {
                     @Override
                     public void onResponse(Call<MultiSearchResults> call, Response<MultiSearchResults> response) {
                         //root
                         MultiSearchResults results = response.body();
-
                         //listOfResults.clear();
+                        Log.i(TAG,"Result: " + results);
                         //list of details
                         listOfResults = results.getResults();
                         //getResults(listOfResults);
                         movieOrTVShow(listOfResults);
-
-                        //Log.i(TAG,"Co jest kurwa: " + shows);
-                        for(int i=1 ; i<shows.size(); i++){
-
-                            Log.i(TAG,"Co jest kurwa: " + shows.get(i).getTitle());
-                        }
-
                         initRecycleView();
-
                     }
-
 
                     @Override
                     public void onFailure(Call<MultiSearchResults> call, Throwable t) {
 
                     }
                 });
-
 
                 return true;
             }
@@ -112,41 +91,8 @@ public class ShowApiFragment extends Fragment {
                 return false;
             }
         });
-
-        //making request call
-        //Call<MovieResults> call = myInterface.getMovies(CATEGORY,API_KEY,LANGUAGE,PAGE);
-
-
-        //Call<MultiSearchResults> call = myMultiSearchInterface.getMultiSearchResult(API_KEY,LANGUAGE,QUERY,PAGE,INCLUDE_ADULT);
-        //Log.i(TAG,"call: " + myMultiSearchInterface.getMultiSearchResult(API_KEY,LANGUAGE,QUERY,PAGE,INCLUDE_ADULT).request());
-        /*
-        call.enqueue(new Callback<MovieResults>() {
-            @Override
-            public void onResponse(Call<MovieResults> call, Response<MovieResults> response) {
-                //root element
-                MovieResults results = response.body();
-                //list of details
-                List<MovieResults.ResultsBean> listOfMovies = results.getResults();
-                //get details of movies
-                setValues(listOfMovies);
-                //make view for each show
-                initRecycleView();
-                //Log.i("Size: ",String.valueOf(listOfMovies.size()));
-            }
-
-            @Override
-            public void onFailure(Call<MovieResults> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-        */
         return view;
 
-    }
-
-    private void getResults(List<MultiSearchResults.ResultsBean> listofresults){
-
-            listOfResults = listofresults;
     }
 
     private void initRecycleView(){
@@ -238,7 +184,6 @@ public class ShowApiFragment extends Fragment {
 
 
     private void clearData(){
-
         shows.clear();
     }
 }
