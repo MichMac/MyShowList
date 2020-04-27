@@ -7,7 +7,30 @@
     android:background="@drawable/background"
     tools:context=".LoginActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/logging_box"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/register_btn_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15pt"
+        android:text="Don't have an account? Click here"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/logging_box"
+        />
+
     <LinearLayout
+        android:id="@+id/logging_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -19,24 +42,25 @@
             android:layout_height="wrap_content"
             android:text="SIGN IN"
             android:textAlignment="center"
+            android:id="@+id/sign_in"
             android:textColor="#000"
             android:textSize="27sp"
             android:layout_marginBottom="15dp"
             />
+
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full Name"
             android:layout_marginBottom="15dp"
-            />
+            android:hint="Email" />
+
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:hint="Email"
-            />
+            android:hint="Password" />
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"

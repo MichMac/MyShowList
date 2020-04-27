@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,14 +25,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainActivityRecyclerViewAdapter.ViewHolder>{
+public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainActivityRecyclerViewAdapter.ViewHolder> implements Filterable {
 
     private static final String TAG = "MainActivityRecyclerVA";
 
     private static long maxid;
 
     private Context mContext;
-    private List<ShowAPI> shows = new ArrayList<>();
+    private List<ShowAPI> shows;
+    private List<ShowAPI> showsFull;
     private DatabaseReference reff;
     private ShowAPI show;
     //private long maxid;
@@ -38,6 +41,7 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
     public MainActivityRecyclerViewAdapter (Context mContext, List<ShowAPI> listofshows){
         this.mContext = mContext;
         this.shows = listofshows;
+        showsFull = new ArrayList<>(shows); // copy of shows without changing original one
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -60,7 +64,6 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
 
         }
     }
-
 
     @NonNull
     @Override
@@ -97,13 +100,46 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
             }
         });
 
-
     }
-
 
     @Override
     public int getItemCount() {
         return shows.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return showsFilter;
+    }
+    private Filter showsFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ShowAPI> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0){
+                filteredList.addAll(showsFull);
+            }
+            else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (ShowAPI item : showsFull) {
+                    if (item.getTitle().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            shows.clear();
+            shows.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

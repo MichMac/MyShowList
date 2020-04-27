@@ -11,14 +11,14 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/signup"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/register_box"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/login_btn"
+        android:id="@+id/login_btn_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15pt"
@@ -26,11 +26,11 @@
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/signup"
+        app:layout_constraintBottom_toTopOf="@id/register_box"
         />
 
     <LinearLayout
-        android:id="@+id/signup"
+        android:id="@+id/register_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,7 +38,7 @@
         android:background="@drawable/login_bg"
         >
         <TextView
-            android:id="@+id/text_signup"
+            android:id="@+id/text_register_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SIGN UP"

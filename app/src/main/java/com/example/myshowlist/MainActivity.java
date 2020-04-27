@@ -12,13 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.internal.Objects;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toast.makeText(this,"firebase connection success",Toast.LENGTH_LONG).show();
 
-
         recyclerView = findViewById(R.id.recycleView_mainWindow);
         reff = FirebaseDatabase.getInstance().getReference().child("Show");
         sortTitle = true;
         sortRating = true;
         sortType = true;
+
 
         reff.addValueEventListener(new ValueEventListener() {
             @Override
@@ -99,6 +96,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -157,10 +172,15 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this,"Brak produkcji do sortowania",Toast.LENGTH_LONG).show();
                 initRecycleView();
                 return true;
-
+            case R.id.settings_Logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
 
 

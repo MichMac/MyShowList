@@ -69,7 +69,7 @@ public class ShowApiFragment extends Fragment {
                         //root
                         MultiSearchResults results = response.body();
                         //listOfResults.clear();
-                        Log.i(TAG,"Result: " + results);
+                        //Log.i(TAG,"Result: " + results);
                         //list of details
                         listOfResults = results.getResults();
                         //getResults(listOfResults);
