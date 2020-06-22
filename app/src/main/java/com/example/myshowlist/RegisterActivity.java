@@ -18,10 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText mFullName,mEmail,mPassword;
+    EditText mFullName, mEmail, mPassword;
     Button mRegisterBtn;
     TextView mLoginBtn;
     ProgressBar progressBar;
@@ -42,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //check if user is logged
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
@@ -53,37 +54,41 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         mRegisterBtn.setOnClickListener(v -> {
-            String email = mEmail.getText().toString().trim();
+            final String email = mEmail.getText().toString().trim();
+            final String name = mFullName.getText().toString().trim();
             String password = mPassword.getText().toString().trim();
 
-            if(TextUtils.isEmpty(email)){
+            if (TextUtils.isEmpty(email)) {
                 mEmail.setError("Email is required");
                 return;
-            }
-
-            else if (TextUtils.isEmpty(password)){
+            } else if (TextUtils.isEmpty(password)) {
                 mPassword.setError("Password is required");
                 return;
-            }
-
-            else if (password.length() < 5){
+            } else if (password.length() < 5) {
                 mPassword.setError("Password must have more than 5 characters");
             }
 
             progressBar.setVisibility(View.VISIBLE);
 
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this,"User created successfully",Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    }
-                    else{
-                        Toast.makeText(RegisterActivity.this,"Error:" + task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
-                    }
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    User user = new User(name, email);
+
+                    //Adding addictional values (for now is name)
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(task1 -> {
+                                progressBar.setVisibility(View.GONE);
+                                if(task.isSuccessful()){
+                                    Toast.makeText(RegisterActivity.this, "User created successfully", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                }
+                            });
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Error:" + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
                 }
+
             });
         });
 

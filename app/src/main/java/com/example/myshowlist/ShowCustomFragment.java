@@ -1,5 +1,7 @@
 package com.example.myshowlist;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,35 +24,59 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import retrofit2.http.Url;
 
 public class ShowCustomFragment extends Fragment {
     private static final String TAG = "ShowCustomFragment";
-    EditText textTitle,textEpisodes,textDescription;
-    Spinner spinnerType,spinnerStatus,spinnerRating;
+    private static final int GALLERY_REQUEST_CODE = 123;
+
+    EditText textTitle, textEpisodes, textDescription;
+    Spinner spinnerType, spinnerStatus, spinnerRating;
     Button btnDodaj;
     DatabaseReference reff;
     ShowAPI show;
-    List type,status,rating;
-    String itemType,itemStatus,itemRating;
-    ArrayAdapter<String> typeAdapter,statusAdapter;
+    List type, status, rating;
+    String itemType, itemStatus, itemRating;
+    ArrayAdapter<String> typeAdapter, statusAdapter;
     ArrayAdapter<Integer> ratingAdapter;
+    Uri imageData;
+
+    //For pictures
+    ImageView imageView;
+    Button btnAddPick;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.show_custom_fragment,container,false);
+        View view = inflater.inflate(R.layout.show_custom_fragment, container, false);
         //Toast.makeText(getActivity(),"Custom Fragment",Toast.LENGTH_LONG).show();
-        textTitle= (EditText)view.findViewById(R.id.title_edit);
-        spinnerType= (Spinner)view.findViewById(R.id.type_spinner);
-        spinnerRating= (Spinner) view.findViewById(R.id.rating_spinner);
-        textDescription= (EditText)view.findViewById(R.id.description_edit);
-        btnDodaj = (Button)view.findViewById(R.id.dodaj_custom_button);
+        textTitle = (EditText) view.findViewById(R.id.title_edit);
+        spinnerType = (Spinner) view.findViewById(R.id.type_spinner);
+        spinnerRating = (Spinner) view.findViewById(R.id.rating_spinner);
+        textDescription = (EditText) view.findViewById(R.id.description_edit);
+        btnDodaj = (Button) view.findViewById(R.id.dodaj_custom_button);
+        //for pictures
+        btnAddPick = view.findViewById(R.id.add_image);
+        imageView = view.findViewById(R.id.image_view);
+
+
+
+        btnAddPick.setOnClickListener(v -> {
+
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Pick an image"), GALLERY_REQUEST_CODE);
+
+        });
+
 
         type = new ArrayList<>();
-        type.add(0,"Wprowadź typ produkcji");
+        type.add(0, "Wprowadź typ produkcji");
         type.add("movie");
         type.add("tv");
 
         rating = new ArrayList<>();
-        rating.add(0,"Wprowadź swoją ocenę");
+        rating.add(0, "Wprowadź swoją ocenę");
         rating.add("10");
         rating.add("9");
         rating.add("8");
@@ -65,8 +92,9 @@ public class ShowCustomFragment extends Fragment {
 
         //Style and populate the spinner
         ArrayAdapter<String> dataAdatper;
-        typeAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,type);;
-        ratingAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,rating);
+        typeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, type);
+        ;
+        ratingAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, rating);
 
 
         //Dropwdown layout style
@@ -77,18 +105,13 @@ public class ShowCustomFragment extends Fragment {
         spinnerRating.setAdapter(ratingAdapter);
 
 
-
-
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (parent.getItemAtPosition(position).equals("Wprowadź typ produkcji"))
-                {
+                if (parent.getItemAtPosition(position).equals("Wprowadź typ produkcji")) {
                     // do nothing
-                }
-                else
-                {
+                } else {
                     // on selecting spinner item
                     itemType = parent.getItemAtPosition(position).toString();
                     //Toast.makeText(parent.getContext(),"Selected: " +itemType, Toast.LENGTH_LONG).show();
@@ -103,17 +126,13 @@ public class ShowCustomFragment extends Fragment {
         });
 
 
-
         spinnerRating.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (parent.getItemAtPosition(position).equals("Wprowadź typ produkcji"))
-                {
+                if (parent.getItemAtPosition(position).equals("Wprowadź typ produkcji")) {
                     //Toast.makeText(parent.getContext(),"Nie wybrano typu produkcji", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                } else {
                     // on selecting spinner item
                     itemRating = parent.getItemAtPosition(position).toString();
                     //Toast.makeText(parent.getContext(),"Selected: " +itemRating, Toast.LENGTH_LONG).show();
@@ -139,17 +158,24 @@ public class ShowCustomFragment extends Fragment {
                 show.setTitle(textTitle.getText().toString().trim());
                 show.setType(itemType);
                 show.setRating(String.valueOf(rating));
-                show.setImage(" ");
+                show.setImage(imageData.toString());
                 show.setDescription(textDescription.getText().toString());
                 show.setShow_id(showID);
                 //reff.push().setValue(show);
                 reff.child(show.getShow_id()).setValue(show);
-                //Log.d("Database Debug","tytul: "+show.getTitle() + "Typ: " + show.getType());
-                Toast.makeText(getContext(),"data inserted sucessfully",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Your show have been added!", Toast.LENGTH_LONG).show();
             }
         });
         //Log.d("Tytul: ",textTitle);
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == GALLERY_REQUEST_CODE && data != null) {
+            imageData = data.getData();
+            imageView.setImageURI(imageData);
+
+        }
+    }
 }

@@ -4,13 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        />
+
+    <Button
+        android:id="@+id/add_image"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Dodaj obraz"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+
     <EditText
         android:id="@+id/title_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/title_form" />
+        android:inputType="text"
+        android:maxLines="1"
+        android:nextFocusDown="@+id/type_spinner"
+        android:imeOptions="actionDone"
+        android:hint="@string/title_form"
+        />
 
     <Spinner
         android:id="@+id/type_spinner"
@@ -33,8 +56,9 @@
         android:layout_height="115dp"
         android:ems="10"
         android:gravity="start|top"
-        android:text="@string/description_form"
-        android:inputType="textMultiLine" />
+        android:hint="@string/description_form"
+        android:inputType="textMultiLine"
+        />
 
     <Button
         android:id="@+id/dodaj_custom_button"

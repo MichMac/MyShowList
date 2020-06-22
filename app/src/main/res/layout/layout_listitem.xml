@@ -17,7 +17,7 @@
         android:text="Avengers"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/image"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimaryText"
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/textView_type"
@@ -26,7 +26,7 @@
         android:text="Movie"
         android:layout_toRightOf="@id/textView_title"
         android:layout_marginLeft="20dp"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimaryText"
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/textView_rating"
@@ -35,7 +35,7 @@
         android:text="8.6"
         android:layout_toRightOf="@id/textView_type"
         android:layout_marginLeft="20dp"
-        android:textColor="#000"
+        android:textColor="@color/colorPrimaryText"
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/textView_description"
@@ -46,7 +46,7 @@
         android:layout_toRightOf="@id/image"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="#000"/>
+        android:textColor="@color/colorSecondaryText"/>
 
 
 

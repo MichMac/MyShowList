@@ -1,6 +1,10 @@
 package com.example.myshowlist;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,10 +85,21 @@ public class MainActivityRecyclerViewAdapter extends RecyclerView.Adapter<MainAc
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called");
 
-        Glide.with(mContext)
-                .asBitmap()
-                .load(shows.get(position).getImage())
-                .into(holder.image);
+
+        if(shows.get(position).getImage().contains("content")) {
+            Log.i(TAG, "test123" + shows.get(position).getImage());
+            Glide.with(mContext)
+                    .asBitmap()
+                    .load(shows.get(position).getImage())
+                    .into(holder.image);
+        }
+
+        else {
+            Glide.with(mContext)
+                    .asBitmap()
+                    .load(shows.get(position).getImage())
+                    .into(holder.image);
+        }
         holder.title.setText(shows.get(position).getTitle());
         holder.type.setText(shows.get(position).getType());
         holder.rating.setText(shows.get(position).getRating());

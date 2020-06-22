@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15pt"
         android:text="Don't have an account? Click here"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimaryLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/logging_box"
@@ -40,11 +40,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIGN IN"
+            android:text="@string/sign_in"
             android:textAlignment="center"
             android:id="@+id/sign_in"
-            android:textColor="#000"
-            android:textSize="27sp"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="25sp"
             android:layout_marginBottom="15dp"
             />
 
@@ -53,22 +53,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:hint="Email" />
+            android:textColor="@color/colorPrimaryText"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email"
+            android:maxLines="1"
+            android:nextFocusDown="@id/password"
+            />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:hint="Password" />
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:hint="@string/password"
+            />
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIGN IN"
+            android:textColor="@color/colorPrimaryLight"
+            android:text="@string/sign_in"
             android:background="@drawable/btn_bg"
-            android:textColor="#fff"
-            android:textSize="25dp"
+            android:textSize="22sp"
             android:layout_marginBottom="15dp"
             />
     </LinearLayout>

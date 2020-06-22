@@ -88,42 +88,39 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.description.setText(shows.get(position).getDescription());
         Log.d(TAG,"onClick: clicked on: " + shows.get(position).getTitle());
 
-        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Log.d(TAG,"onClick: clicked on: " + shows.get(position).getTitle());
-                //Toast.makeText(mContext, mTitles.get(position), Toast.LENGTH_LONG).show();
-                reff = FirebaseDatabase.getInstance().getReference().child("Show");
+        holder.parentLayout.setOnClickListener(v -> {
+            //Log.d(TAG,"onClick: clicked on: " + shows.get(position).getTitle());
+            //Toast.makeText(mContext, mTitles.get(position), Toast.LENGTH_LONG).show();
+            reff = FirebaseDatabase.getInstance().getReference().child("Show");
 
-                reff.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-                            Log.d(TAG,"onDataChange: entry");
-                            maxid=(dataSnapshot.getChildrenCount());
-                        }
+            reff.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists()){
+                        Log.d(TAG,"onDataChange: entry");
+                        maxid=(dataSnapshot.getChildrenCount());
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                }
+            });
 
-                String showID = reff.child("Show").push().getKey();
-                shows.get(position).getImage();
-                shows.get(position).getType();
-                shows.get(position).getRating();
-                shows.get(position).getDescription();
-                shows.get(position).setShow_id(showID);
+            String showID = reff.child("Show").push().getKey();
+            shows.get(position).getImage();
+            shows.get(position).getType();
+            shows.get(position).getRating();
+            shows.get(position).getDescription();
+            shows.get(position).setShow_id(showID);
 
-                Log.d(TAG,"key value: " + shows.get(position).getShow_id());
-                //mShow_id.add(position,showID);
-                //Log.d(TAG,"Increment value: " + maxid);
-                reff.child(shows.get(position).getShow_id()).setValue(shows.get(position));
-                //Log.d("Database Debug","tytul: "+show.getTitle() + "Typ: " + show.getType());
-                Toast.makeText(mContext,"Dodałeś do ulubionych!",Toast.LENGTH_LONG).show();
-            }
+            Log.d(TAG,"key value: " + shows.get(position).getShow_id());
+            //mShow_id.add(position,showID);
+            //Log.d(TAG,"Increment value: " + maxid);
+            reff.child(shows.get(position).getShow_id()).setValue(shows.get(position));
+            //Log.d("Database Debug","tytul: "+show.getTitle() + "Typ: " + show.getType());
+            Toast.makeText(mContext,"Dodałeś do ulubionych!",Toast.LENGTH_LONG).show();
         });
 
 
